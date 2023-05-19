@@ -8,5 +8,5 @@ export interface configModelSequelize {
   sequelize: Sequelize,
   tableName: string,
   modelName: string,
-  timestamp: boolean
+  timestamps: boolean
 }

@@ -1,7 +1,7 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
 import { configModelSequelize } from "../../utils/types/config.model.sequelize";
 
-export const AUDIOVISUAL_CONTENT_TABLE = 'audiovisual_content';
+export const AUDIOVISUAL_CONTENT_TABLE = 'audiovisual_contents';
 
 export const AudiovisualContentSchema = {
   id: {
@@ -43,7 +43,7 @@ export class AudiovisualContent extends Model {
       sequelize: sequelize,
       tableName: AUDIOVISUAL_CONTENT_TABLE,
       modelName: 'AudiovisualContent',
-      timestamp: false
+      timestamps: false
     };
 
     return config;

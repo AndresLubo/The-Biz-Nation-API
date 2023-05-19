@@ -1,9 +1,9 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
 import { configModelSequelize } from "../../utils/types/config.model.sequelize";
 
-export const CHARACTER_TABLE = 'characters';
+export const GENRE_TABLE = 'genres';
 
-export const CharacterSchema = {
+export const GenreSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -17,25 +17,13 @@ export const CharacterSchema = {
   name: {
     allowNull: false,
     type: DataTypes.STRING(40),
-  },
-  age: {
-    allowNull: false,
-    type: DataTypes.INTEGER
-  },
-  weight: {
-    allowNull: false,
-    type: DataTypes.INTEGER
-  },
-  history: {
-    allowNull: false,
-    type: DataTypes.TEXT
-  },
+  }
 
-  // queda pendiente las colaboraciones
+  // queda pendiente las peliculas relacionadas
 
 };
 
-export class Character extends Model {
+export class Genre extends Model {
   static associate(models: any): void{
       //
   }
@@ -43,9 +31,9 @@ export class Character extends Model {
   static config(sequelize: Sequelize): configModelSequelize{
 
     const config: configModelSequelize = {
-      sequelize: sequelize,
-      tableName: CHARACTER_TABLE,
-      modelName: 'Character',
+      sequelize,
+      tableName: GENRE_TABLE,
+      modelName: 'Genre',
       timestamps: false
     };
 
