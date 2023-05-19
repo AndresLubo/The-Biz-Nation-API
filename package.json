@@ -6,7 +6,10 @@
   "scripts": {
     "build": "npx tsc",
     "start:dev": "nodemon",
-    "start": "node build/index.js"
+    "start": "node build/index.js",
+    "migrations:generate": "sequelize-cli migration:generate --name",
+    "migrations:run": "sequelize-cli db:migrate",
+    "migrations:revert": "sequelize-cli db:migrate:undo"
   },
   "keywords": [
     "Node",
@@ -37,6 +40,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "nodemon": "^2.0.22",
     "prettier": "^2.8.8",
+    "sequelize-cli": "^6.6.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   }

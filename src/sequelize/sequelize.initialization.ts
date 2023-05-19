@@ -1,5 +1,11 @@
 import { Sequelize } from "sequelize";
 
+import { Character, CharacterSchema } from "./models/character.model";
+
 export const setupModels = (sequelize: Sequelize): void => {
-  const rta = 23;
+  Character.init(CharacterSchema, Character.config(sequelize));
+
+
+  Character.associate(sequelize.models);
+
 };
