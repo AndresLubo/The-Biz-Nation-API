@@ -30,7 +30,6 @@ exports.CharacterSchema = {
         allowNull: false,
         type: sequelize_1.DataTypes.TEXT
     },
-    // queda pendiente las colaboraciones
 };
 class Character extends sequelize_1.Model {
     static associate(models) {

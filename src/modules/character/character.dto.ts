@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 const id = Joi.number().integer();
-const image = Joi.string().email();
+const image = Joi.string().uri();
 const name = Joi.string().max(39);
 const age = Joi.number().integer();
 const weight = Joi.number().integer();

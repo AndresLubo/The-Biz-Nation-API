@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 const id = Joi.number().integer();
-const image = Joi.string().email();
+const image = Joi.string().uri();
 const title = Joi.string().max(39);
 const creationDate = Joi.date()
 const rating = Joi.number().integer();

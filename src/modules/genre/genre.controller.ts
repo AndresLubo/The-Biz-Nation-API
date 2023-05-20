@@ -6,8 +6,7 @@ import {
   propertySchema,
 } from '../../middlewares/validator.handler';
 import { CreateGenre, UpdateGenre } from '../../utils/types/genre.type';
-import { createGenreContentDto, getGenreDto } from './genre.dto';
-import { updateCharacterDto } from '../character/character.dto';
+import { createGenreContentDto, getGenreDto, updateGenreDto } from './genre.dto';
 
 const service = GenreService.create();
 export const genreController = Router();
@@ -55,7 +54,7 @@ genreController.post(
 genreController.put(
   '/:id',
   validatorHandler(getGenreDto, propertySchema.PARAMS),
-  validatorHandler(updateCharacterDto, propertySchema.BODY),
+  validatorHandler(updateGenreDto, propertySchema.BODY),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;

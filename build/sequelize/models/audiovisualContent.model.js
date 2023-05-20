@@ -25,7 +25,7 @@ exports.AudiovisualContentSchema = {
     },
     rating: {
         allowNull: false,
-        type: sequelize_1.DataTypes.DECIMAL
+        type: sequelize_1.DataTypes.NUMBER
     }
     // queda pendiente los personajes
 };

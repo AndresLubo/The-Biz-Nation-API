@@ -16,9 +16,9 @@ import {
 } from './audiovisualContent.dto';
 
 const service = AudiovisualContentService.create();
-export const AudiovisualContentRouter = Router();
+export const audiovisualContentController = Router();
 
-AudiovisualContentRouter.get(
+audiovisualContentController.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -30,7 +30,7 @@ AudiovisualContentRouter.get(
   }
 );
 
-AudiovisualContentRouter.get(
+audiovisualContentController.get(
   '/:id',
   validatorHandler(getAudiovisualContentDto, propertySchema.PARAMS),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -44,7 +44,7 @@ AudiovisualContentRouter.get(
   }
 );
 
-AudiovisualContentRouter.post(
+audiovisualContentController.post(
   '/',
   validatorHandler(createAudiovisualContentDto, propertySchema.BODY),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -59,7 +59,7 @@ AudiovisualContentRouter.post(
   }
 );
 
-AudiovisualContentRouter.put(
+audiovisualContentController.put(
   '/:id',
   validatorHandler(getAudiovisualContentDto, propertySchema.PARAMS),
   validatorHandler(updateAudiovisualContentDto, propertySchema.BODY),
@@ -76,7 +76,7 @@ AudiovisualContentRouter.put(
   }
 );
 
-AudiovisualContentRouter.delete(
+audiovisualContentController.delete(
   '/:id',
   validatorHandler(getAudiovisualContentDto, propertySchema.PARAMS),
   async (req: Request, res: Response, next: NextFunction) => {

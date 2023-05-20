@@ -2,8 +2,9 @@ import { Router, Application } from "express";
 import { userController } from "../modules/user/user.controller";
 import { authController } from "../modules/auth/auth.controller";
 import { characterController } from "../modules/character/character.controller";
-import { AudiovisualContentRouter } from "../modules/audiovisual_content/audiovisualContent.controller";
+import { audiovisualContentController } from "../modules/audiovisual_content/audiovisualContent.controller";
 import { genreController } from "../modules/genre/genre.controller";
+import { collaborationController } from "../modules/collaboration/collaboration.controller";
 
 
 export const RouterApi = (app: Application): void => {
@@ -12,8 +13,9 @@ export const RouterApi = (app: Application): void => {
   router.use('/users', userController);
   router.use('/auth', authController);
   router.use('/characters', characterController);
-  router.use('/movies', AudiovisualContentRouter);
+  router.use('/movies', audiovisualContentController);
   router.use('/genres', genreController);
+  router.use('/collaborations', collaborationController)
 
   app.use("/api/disney-demo/v1", router);
 };
