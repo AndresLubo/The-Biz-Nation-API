@@ -31,7 +31,7 @@ export const UserSchema = {
   },
 };
 
-export    class User extends Model {
+export class User extends Model {
   static associate(models: any): void {
 //
   }

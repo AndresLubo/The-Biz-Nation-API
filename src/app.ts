@@ -9,10 +9,11 @@ export const createApp = (): Application => {
 
   app.use(express.json());
 
+  RouterApi(app);
+
   app.use(ormErrorHandler);
   app.use(boomErrorHandler);
   app.use(errorHandler);
 
-  RouterApi(app);
   return app;
 }
