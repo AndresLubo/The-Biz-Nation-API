@@ -7,6 +7,7 @@ import {
   CreateAudiovisualContent,
   UpdateAudioVisualContent,
 } from '../../utils/types/audiovisualContent.type';
+import { filter } from '../../utils/types/filter.audiovisualContent.type';
 
 const { models } = sequelize;
 
@@ -21,12 +22,26 @@ export class AudiovisualContentService {
     return AudiovisualContentService.instance;
   }
 
-  async findAll(): Promise<Model<AudiovisualContent>[]> {
+  async findAll(query: filter): Promise<Model<AudiovisualContent>[]> {
+    let where = {};
+    let orderQuery;
+    let thisOrder: any[] = [];
+
+    if (query.title) where = {...where, title: query.title }
+    if (query.genre)  where = { ...where, '$genreAudiovisualContent.id$': query.genre }
+    if (query.order){
+      orderQuery = ['creationDate', query.order]
+      thisOrder = [orderQuery]
+    }
+
     const movies: Model<AudiovisualContent>[] =
       await models.AudiovisualContent.findAll({
         attributes: {
           exclude: ['rating'],
         },
+        include: ['genreAudiovisualContent'],
+        where: {...where },
+        order: thisOrder
       });
 
     return movies;

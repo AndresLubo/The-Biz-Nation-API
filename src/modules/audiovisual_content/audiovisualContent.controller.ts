@@ -12,17 +12,21 @@ import {
 import {
   createAudiovisualContentDto,
   getAudiovisualContentDto,
+  queryFiltersDto,
   updateAudiovisualContentDto,
 } from './audiovisualContent.dto';
+import { filter } from '../../utils/types/filter.audiovisualContent.type';
 
 const service = AudiovisualContentService.create();
 export const audiovisualContentController = Router();
 
 audiovisualContentController.get(
   '/',
+  validatorHandler(queryFiltersDto, propertySchema.QUERY),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const movies = await service.findAll();
+      const filters: filter = req.query;
+      const movies = await service.findAll(filters);
       res.status(200).json(movies);
     } catch (error) {
       next(error);

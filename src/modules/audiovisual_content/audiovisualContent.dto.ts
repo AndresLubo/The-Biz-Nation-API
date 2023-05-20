@@ -5,6 +5,7 @@ const image = Joi.string().uri();
 const title = Joi.string().max(39);
 const creationDate = Joi.date()
 const rating = Joi.number().integer();
+const order = Joi.string().valid('DESC', 'ASC');
 
 export const getAudiovisualContentDto = Joi.object({
   id: id.required(),
@@ -23,3 +24,9 @@ export const updateAudiovisualContentDto = Joi.object({
   creationDate: creationDate,
   rating: rating
 });
+
+export const queryFiltersDto = Joi.object({
+  title: title,
+  genre: id,
+  order: order
+})

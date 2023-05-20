@@ -37,6 +37,13 @@ export class AudiovisualContent extends Model {
       foreignKey: 'audiovisualContentId',
       otherKey: 'characterId',
     })
+
+    this.belongsToMany(models.Genre, {
+      as: 'genreAudiovisualContent',
+      through: models.GenreAudiovisualContent,
+      foreignKey: 'audiovisualContentId',
+      otherKey: 'genreId',
+    })
   }
 
   static config(sequelize: Sequelize): configModelSequelize{

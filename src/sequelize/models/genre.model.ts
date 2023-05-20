@@ -22,7 +22,7 @@ export const GenreSchema = {
 
 export class Genre extends Model {
   static associate(models: any): void{
-    this.belongsToMany(models.GenreAudiovisualContent, {
+    this.belongsToMany(models.AudiovisualContent, {
       as: 'genreAudiovisualContent',
       through: models.GenreAudiovisualContent,
       foreignKey: 'genreId',
