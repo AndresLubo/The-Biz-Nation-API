@@ -2,7 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _a;
+var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.configEnv = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -15,5 +15,8 @@ exports.configEnv = {
         username: process.env.MYSQL_DB_USERNAME,
         dbName: process.env.MYSQL_DB_NAME,
         password: process.env.MYSQL_DB_PASSWORD
+    },
+    jwt: {
+        secret: (_b = process.env.SECRET) !== null && _b !== void 0 ? _b : "secrect"
     }
 };

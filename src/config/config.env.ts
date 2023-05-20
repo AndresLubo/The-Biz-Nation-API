@@ -9,5 +9,8 @@ export const configEnv = {
     username: process.env.MYSQL_DB_USERNAME,
     dbName: process.env.MYSQL_DB_NAME,
     password: process.env.MYSQL_DB_PASSWORD
+  },
+  jwt: {
+    secret: process.env.SECRET ?? "secrect"
   }
 };

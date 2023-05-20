@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response, Router } from 'express';
 
 import { UserService } from './user.service';
-import { CreateUser, UpdateUser } from '../../utils/types/user.type';
 import { validatorHandler, propertySchema } from '../../middlewares/validator.handler';
-import { createUserDto, getUserDto, updateUserDto } from './user.dto';
+import { getUserDto, updateUserDto } from './user.dto';
+import { UpdateUser } from '../../utils/types/user.type';
 
 const service = UserService.create();
 export const userController = Router();
@@ -37,20 +37,20 @@ userController.get(
   }
 );
 
-userController.post(
-  '/',
-  validatorHandler(createUserDto, propertySchema.BODY),
-  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const data: CreateUser = req.body;
-      const create = await service.create(data);
+// userController.post(
+//   '/',
+//   validatorHandler(createUserDto, propertySchema.BODY),
+//   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+//     try {
+//       const data: CreateUser = req.body;
+//       const create = await service.create(data);
 
-      res.status(201).json(create);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
+//       res.status(201).json(create);
+//     } catch (error) {
+//       next(error);
+//     }
+//   }
+// );
 
 userController.put(
   '/:id',
