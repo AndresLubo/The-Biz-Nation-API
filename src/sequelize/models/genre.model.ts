@@ -18,14 +18,16 @@ export const GenreSchema = {
     allowNull: false,
     type: DataTypes.STRING(40),
   }
-
-  // queda pendiente las peliculas relacionadas
-
 };
 
 export class Genre extends Model {
   static associate(models: any): void{
-      //
+    this.belongsToMany(models.GenreAudiovisualContent, {
+      as: 'genreAudiovisualContent',
+      through: models.GenreAudiovisualContent,
+      foreignKey: 'genreId',
+      otherKey: 'audiovisualContentId',
+    })
   }
 
   static config(sequelize: Sequelize): configModelSequelize{

@@ -34,7 +34,12 @@ exports.CharacterSchema = {
 };
 class Character extends sequelize_1.Model {
     static associate(models) {
-        //
+        this.belongsToMany(models.AudiovisualContent, {
+            as: 'collaborations',
+            through: models.Collaboration,
+            foreignKey: 'characterId',
+            otherKey: 'audiovisualContentId',
+        });
     }
     static config(sequelize) {
         const config = {

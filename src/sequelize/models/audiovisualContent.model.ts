@@ -25,7 +25,7 @@ export const AudiovisualContentSchema = {
   },
   rating: {
     allowNull: false,
-    type: DataTypes.DECIMAL
+    type: DataTypes.NUMBER
   }
 
   // queda pendiente los personajes

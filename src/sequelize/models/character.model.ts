@@ -31,13 +31,17 @@ export const CharacterSchema = {
     type: DataTypes.TEXT
   },
 
-  // queda pendiente las colaboraciones
-
 };
 
 export class Character extends Model {
+
   static associate(models: any): void{
-      //
+    this.belongsToMany(models.AudiovisualContent, {
+      as: 'collaborations',
+      through: models.Collaboration,
+      foreignKey: 'characterId',
+      otherKey: 'audiovisualContentId',
+    })
   }
 
   static config(sequelize: Sequelize): configModelSequelize{

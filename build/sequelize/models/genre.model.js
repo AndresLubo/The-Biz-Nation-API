@@ -18,11 +18,15 @@ exports.GenreSchema = {
         allowNull: false,
         type: sequelize_1.DataTypes.STRING(40),
     }
-    // queda pendiente las peliculas relacionadas
 };
 class Genre extends sequelize_1.Model {
     static associate(models) {
-        //
+        this.belongsToMany(models.GenreAudiovisualContent, {
+            as: 'genreAudiovisualContent',
+            through: models.GenreAudiovisualContent,
+            foreignKey: 'genreId',
+            otherKey: 'audiovisualContentId',
+        });
     }
     static config(sequelize) {
         const config = {
