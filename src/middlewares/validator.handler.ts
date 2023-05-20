@@ -5,6 +5,7 @@ import { Schema } from 'joi';
 export enum propertySchema {
   PARAMS = 'params',
   BODY = 'body',
+  QUERY = 'query'
 }
 
 export const validatorHandler = (schema: Schema, property: propertySchema) => {

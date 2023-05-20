@@ -27,14 +27,16 @@ export const AudiovisualContentSchema = {
     allowNull: false,
     type: DataTypes.NUMBER
   }
-
-  // queda pendiente los personajes
-
 };
 
 export class AudiovisualContent extends Model {
   static associate(models: any): void{
-      //
+    this.belongsToMany(models.Character, {
+      as: 'collaborations',
+      through: models.Collaboration,
+      foreignKey: 'audiovisualContentId',
+      otherKey: 'characterId',
+    })
   }
 
   static config(sequelize: Sequelize): configModelSequelize{

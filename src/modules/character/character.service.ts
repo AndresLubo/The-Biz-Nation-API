@@ -2,6 +2,7 @@ import { Model } from "sequelize";
 import { sequelize } from "../../sequelize/sequelize.index";
 import { Character, CreateCharacter, UpdateCharacter } from "../../utils/types/character.type";
 import boom from "@hapi/boom";
+import { Query, filter } from "../../utils/types/filters.character.type";
 
 const { models } = sequelize;
 
@@ -16,18 +17,35 @@ export class CharacterService {
     return CharacterService.instance;
   }
 
-  async findAll(): Promise<Model<Character>[]>{
-    const characters: Model<Character>[] = await models.Character.findAll({
+  async findAll(query: filter): Promise<Model<Character>[]>{
+    let where = {};
+
+    if (query.movie) where = {...where, '$collaborations.collaboration.id$': query.movie }
+    if (query.name) where = { ...where, name: query.name }
+    if (query.age) where = { ...where, age: query.age }
+
+    const options = {
       attributes: {
-        exclude: [],
+        exclude: ['history', 'age', 'weight'],
       },
-    });
+      include: [{
+        association: 'collaborations'
+      }],
+      where: {...where}
+    };
+
+    const characters: Model<Character>[] = await models.Character.findAll(options);
 
     return characters;
   }
 
   async findOne(id: number): Promise<Model<Character>>{
-    const character: Model<Character> | null = await models.Character.findByPk(id, {});
+    const character: Model<Character> | null = await models.Character.findByPk(id, {
+      include: [{
+        association: 'collaborations',
+        attributes: { exclude: [] }
+      }]
+    });
 
     if (!character) throw boom.notFound(`The character with id ${id} does not exist.`);
     return character;

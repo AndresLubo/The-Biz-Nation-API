@@ -9,18 +9,19 @@ import {
   CreateCharacter,
   UpdateCharacter,
 } from '../../utils/types/character.type';
-import { getCharacterDto } from './character.dto';
-import { createCharacterDto } from './character.dto';
-import { updateCharacterDto } from './character.dto';
+import { getCharacterDto, createCharacterDto, updateCharacterDto, queryFiltersDto } from './character.dto';
+import { filter } from '../../utils/types/filters.character.type';
 
 const service = CharacterService.create();
 export const characterController = Router();
 
 characterController.get(
   '/',
+  validatorHandler(queryFiltersDto, propertySchema.QUERY),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const characters = await service.findAll();
+      const filters: filter = req.query;
+      const characters = await service.findAll(filters);
       res.status(200).json(characters);
     } catch (error) {
       next(error);

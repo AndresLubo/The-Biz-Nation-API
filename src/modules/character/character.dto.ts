@@ -26,3 +26,9 @@ export const updateCharacterDto = Joi.object({
   weight: weight,
   history: history
 });
+
+export const queryFiltersDto = Joi.object({
+  name: name,
+  age: age,
+  movie: id
+})
