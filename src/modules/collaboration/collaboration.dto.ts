@@ -9,7 +9,7 @@ export const getCollaborationDto = joi.object({
 })
 
 export const createCollaborationDto = joi.object({
-  characterId: characterId.required,
+  characterId: characterId.required(),
   audiovisualContentId: audiovisualContentId.required()
 })
 
