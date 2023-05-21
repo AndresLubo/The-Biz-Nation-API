@@ -24,19 +24,38 @@ class AudiovisualContentService {
             AudiovisualContentService.instance = new AudiovisualContentService();
         return AudiovisualContentService.instance;
     }
-    findAll() {
+    findAll(query) {
         return __awaiter(this, void 0, void 0, function* () {
+            let where = {};
+            let orderQuery;
+            let thisOrder = [];
+            if (query.title)
+                where = Object.assign(Object.assign({}, where), { title: query.title });
+            if (query.genre)
+                where = Object.assign(Object.assign({}, where), { '$genreAudiovisualContent.id$': query.genre });
+            if (query.order) {
+                orderQuery = ['creationDate', query.order];
+                thisOrder = [orderQuery];
+            }
             const movies = yield models.AudiovisualContent.findAll({
                 attributes: {
-                    exclude: [],
+                    exclude: ['rating'],
                 },
+                include: ['genreAudiovisualContent'],
+                where: Object.assign({}, where),
+                order: thisOrder
             });
             return movies;
         });
     }
     findOne(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const movie = yield models.AudiovisualContent.findByPk(id, {});
+            const movie = yield models.AudiovisualContent.findByPk(id, {
+                include: [{
+                        association: 'collaborations',
+                        attributes: { exclude: ['Collaboration'] }
+                    }],
+            });
             if (!movie)
                 throw boom_1.default.notFound(`The audiovisual content with id ${id} does not exist.`);
             return movie;

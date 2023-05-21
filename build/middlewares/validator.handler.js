@@ -9,6 +9,7 @@ var propertySchema;
 (function (propertySchema) {
     propertySchema["PARAMS"] = "params";
     propertySchema["BODY"] = "body";
+    propertySchema["QUERY"] = "query";
 })(propertySchema = exports.propertySchema || (exports.propertySchema = {}));
 const validatorHandler = (schema, property) => {
     return (req, res, next) => {

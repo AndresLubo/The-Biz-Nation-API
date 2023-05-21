@@ -14,13 +14,12 @@ const express_1 = require("express");
 const character_service_1 = require("./character.service");
 const validator_handler_1 = require("../../middlewares/validator.handler");
 const character_dto_1 = require("./character.dto");
-const character_dto_2 = require("./character.dto");
-const character_dto_3 = require("./character.dto");
 const service = character_service_1.CharacterService.create();
 exports.characterController = (0, express_1.Router)();
-exports.characterController.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.characterController.get('/', (0, validator_handler_1.validatorHandler)(character_dto_1.queryFiltersDto, validator_handler_1.propertySchema.QUERY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const characters = yield service.findAll();
+        const filters = req.query;
+        const characters = yield service.findAll(filters);
         res.status(200).json(characters);
     }
     catch (error) {
@@ -37,7 +36,7 @@ exports.characterController.get('/:id', (0, validator_handler_1.validatorHandler
         next(error);
     }
 }));
-exports.characterController.post('/', (0, validator_handler_1.validatorHandler)(character_dto_2.createCharacterDto, validator_handler_1.propertySchema.BODY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.characterController.post('/', (0, validator_handler_1.validatorHandler)(character_dto_1.createCharacterDto, validator_handler_1.propertySchema.BODY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
         const response = yield service.create(data);
@@ -47,7 +46,7 @@ exports.characterController.post('/', (0, validator_handler_1.validatorHandler)(
         next(error);
     }
 }));
-exports.characterController.put('/:id', (0, validator_handler_1.validatorHandler)(character_dto_1.getCharacterDto, validator_handler_1.propertySchema.PARAMS), (0, validator_handler_1.validatorHandler)(character_dto_3.updateCharacterDto, validator_handler_1.propertySchema.BODY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.characterController.put('/:id', (0, validator_handler_1.validatorHandler)(character_dto_1.getCharacterDto, validator_handler_1.propertySchema.PARAMS), (0, validator_handler_1.validatorHandler)(character_dto_1.updateCharacterDto, validator_handler_1.propertySchema.BODY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const changes = req.body;

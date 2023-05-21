@@ -7,7 +7,7 @@ exports.updateGenreDto = exports.createGenreContentDto = exports.getGenreDto = v
 const joi_1 = __importDefault(require("joi"));
 const id = joi_1.default.number().integer();
 const name = joi_1.default.string().max(39);
-const image = joi_1.default.string().email();
+const image = joi_1.default.string().uri();
 exports.getGenreDto = joi_1.default.object({
     id: id.required(),
 });

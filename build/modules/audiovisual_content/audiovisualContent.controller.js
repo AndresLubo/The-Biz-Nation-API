@@ -9,23 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AudiovisualContentRouter = void 0;
+exports.audiovisualContentController = void 0;
 const express_1 = require("express");
 const audiovisualContent_service_1 = require("./audiovisualContent.service");
 const validator_handler_1 = require("../../middlewares/validator.handler");
 const audiovisualContent_dto_1 = require("./audiovisualContent.dto");
 const service = audiovisualContent_service_1.AudiovisualContentService.create();
-exports.AudiovisualContentRouter = (0, express_1.Router)();
-exports.AudiovisualContentRouter.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.audiovisualContentController = (0, express_1.Router)();
+exports.audiovisualContentController.get('/', (0, validator_handler_1.validatorHandler)(audiovisualContent_dto_1.queryFiltersDto, validator_handler_1.propertySchema.QUERY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const movies = yield service.findAll();
+        const filters = req.query;
+        const movies = yield service.findAll(filters);
         res.status(200).json(movies);
     }
     catch (error) {
         next(error);
     }
 }));
-exports.AudiovisualContentRouter.get('/:id', (0, validator_handler_1.validatorHandler)(audiovisualContent_dto_1.getAudiovisualContentDto, validator_handler_1.propertySchema.PARAMS), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.audiovisualContentController.get('/:id', (0, validator_handler_1.validatorHandler)(audiovisualContent_dto_1.getAudiovisualContentDto, validator_handler_1.propertySchema.PARAMS), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const response = yield service.findOne(parseInt(id));
@@ -35,7 +36,7 @@ exports.AudiovisualContentRouter.get('/:id', (0, validator_handler_1.validatorHa
         next(error);
     }
 }));
-exports.AudiovisualContentRouter.post('/', (0, validator_handler_1.validatorHandler)(audiovisualContent_dto_1.createAudiovisualContentDto, validator_handler_1.propertySchema.BODY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.audiovisualContentController.post('/', (0, validator_handler_1.validatorHandler)(audiovisualContent_dto_1.createAudiovisualContentDto, validator_handler_1.propertySchema.BODY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
         const response = yield service.create(data);
@@ -45,7 +46,7 @@ exports.AudiovisualContentRouter.post('/', (0, validator_handler_1.validatorHand
         next(error);
     }
 }));
-exports.AudiovisualContentRouter.put('/:id', (0, validator_handler_1.validatorHandler)(audiovisualContent_dto_1.getAudiovisualContentDto, validator_handler_1.propertySchema.PARAMS), (0, validator_handler_1.validatorHandler)(audiovisualContent_dto_1.updateAudiovisualContentDto, validator_handler_1.propertySchema.BODY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.audiovisualContentController.put('/:id', (0, validator_handler_1.validatorHandler)(audiovisualContent_dto_1.getAudiovisualContentDto, validator_handler_1.propertySchema.PARAMS), (0, validator_handler_1.validatorHandler)(audiovisualContent_dto_1.updateAudiovisualContentDto, validator_handler_1.propertySchema.BODY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const changes = req.body;
@@ -56,7 +57,7 @@ exports.AudiovisualContentRouter.put('/:id', (0, validator_handler_1.validatorHa
         next(error);
     }
 }));
-exports.AudiovisualContentRouter.delete('/:id', (0, validator_handler_1.validatorHandler)(audiovisualContent_dto_1.getAudiovisualContentDto, validator_handler_1.propertySchema.PARAMS), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.audiovisualContentController.delete('/:id', (0, validator_handler_1.validatorHandler)(audiovisualContent_dto_1.getAudiovisualContentDto, validator_handler_1.propertySchema.PARAMS), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const response = yield service.delete(parseInt(id));

@@ -27,11 +27,21 @@ exports.AudiovisualContentSchema = {
         allowNull: false,
         type: sequelize_1.DataTypes.NUMBER
     }
-    // queda pendiente los personajes
 };
 class AudiovisualContent extends sequelize_1.Model {
     static associate(models) {
-        //
+        this.belongsToMany(models.Character, {
+            as: 'collaborations',
+            through: models.Collaboration,
+            foreignKey: 'audiovisualContentId',
+            otherKey: 'characterId',
+        });
+        this.belongsToMany(models.Genre, {
+            as: 'genreAudiovisualContent',
+            through: models.GenreAudiovisualContent,
+            foreignKey: 'audiovisualContentId',
+            otherKey: 'genreId',
+        });
     }
     static config(sequelize) {
         const config = {

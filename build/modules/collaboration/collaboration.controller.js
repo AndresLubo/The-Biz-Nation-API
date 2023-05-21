@@ -9,33 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.genreController = void 0;
+exports.collaborationController = void 0;
 const express_1 = require("express");
-const genre_service_1 = require("./genre.service");
+const collaboration_service_1 = require("./collaboration.service");
 const validator_handler_1 = require("../../middlewares/validator.handler");
-const genre_dto_1 = require("./genre.dto");
-const service = genre_service_1.GenreService.create();
-exports.genreController = (0, express_1.Router)();
-exports.genreController.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const genres = yield service.findAll();
-        res.status(200).json(genres);
-    }
-    catch (error) {
-        next(error);
-    }
-}));
-exports.genreController.get('/:id', (0, validator_handler_1.validatorHandler)(genre_dto_1.getGenreDto, validator_handler_1.propertySchema.PARAMS), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const collaboration_dto_1 = require("./collaboration.dto");
+const service = collaboration_service_1.CollaborationService.create();
+exports.collaborationController = (0, express_1.Router)();
+exports.collaborationController.get('/:id', (0, validator_handler_1.validatorHandler)(collaboration_dto_1.getCollaborationDto, validator_handler_1.propertySchema.PARAMS), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const genre = yield service.findOne(parseInt(id));
-        res.status(200).json(genre);
+        const collaborarion = yield service.findOne(parseInt(id));
+        res.status(200).json(collaborarion);
     }
     catch (error) {
         next(error);
     }
 }));
-exports.genreController.post('/', (0, validator_handler_1.validatorHandler)(genre_dto_1.createGenreContentDto, validator_handler_1.propertySchema.BODY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.collaborationController.post('/', (0, validator_handler_1.validatorHandler)(collaboration_dto_1.createCollaborationDto, validator_handler_1.propertySchema.BODY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
         const response = yield service.create(data);
@@ -45,7 +36,7 @@ exports.genreController.post('/', (0, validator_handler_1.validatorHandler)(genr
         next(error);
     }
 }));
-exports.genreController.put('/:id', (0, validator_handler_1.validatorHandler)(genre_dto_1.getGenreDto, validator_handler_1.propertySchema.PARAMS), (0, validator_handler_1.validatorHandler)(genre_dto_1.updateGenreDto, validator_handler_1.propertySchema.BODY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.collaborationController.put('/:id', (0, validator_handler_1.validatorHandler)(collaboration_dto_1.getCollaborationDto, validator_handler_1.propertySchema.PARAMS), (0, validator_handler_1.validatorHandler)(collaboration_dto_1.updateCollaborationDto, validator_handler_1.propertySchema.BODY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const changes = req.body;
@@ -56,7 +47,7 @@ exports.genreController.put('/:id', (0, validator_handler_1.validatorHandler)(ge
         next(error);
     }
 }));
-exports.genreController.delete('/:id', (0, validator_handler_1.validatorHandler)(genre_dto_1.getGenreDto, validator_handler_1.propertySchema.PARAMS), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.collaborationController.delete('/:id', (0, validator_handler_1.validatorHandler)(collaboration_dto_1.getCollaborationDto, validator_handler_1.propertySchema.PARAMS), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const response = yield service.delete(parseInt(id));

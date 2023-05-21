@@ -24,19 +24,36 @@ class CharacterService {
             CharacterService.instance = new CharacterService();
         return CharacterService.instance;
     }
-    findAll() {
+    findAll(query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const characters = yield models.Character.findAll({
+            let where = {};
+            if (query.movie)
+                where = Object.assign(Object.assign({}, where), { '$collaborations.collaboration.id$': query.movie });
+            if (query.name)
+                where = Object.assign(Object.assign({}, where), { name: query.name });
+            if (query.age)
+                where = Object.assign(Object.assign({}, where), { age: query.age });
+            const options = {
                 attributes: {
-                    exclude: [],
+                    exclude: ['history', 'age', 'weight'],
                 },
-            });
+                include: [{
+                        association: 'collaborations'
+                    }],
+                where: Object.assign({}, where)
+            };
+            const characters = yield models.Character.findAll(options);
             return characters;
         });
     }
     findOne(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const character = yield models.Character.findByPk(id, {});
+            const character = yield models.Character.findByPk(id, {
+                include: [{
+                        association: 'collaborations',
+                        attributes: { exclude: [] }
+                    }]
+            });
             if (!character)
                 throw boom_1.default.notFound(`The character with id ${id} does not exist.`);
             return character;

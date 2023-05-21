@@ -21,7 +21,7 @@ exports.GenreSchema = {
 };
 class Genre extends sequelize_1.Model {
     static associate(models) {
-        this.belongsToMany(models.GenreAudiovisualContent, {
+        this.belongsToMany(models.AudiovisualContent, {
             as: 'genreAudiovisualContent',
             through: models.GenreAudiovisualContent,
             foreignKey: 'genreId',
