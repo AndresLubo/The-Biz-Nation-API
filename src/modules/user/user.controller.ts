@@ -4,12 +4,14 @@ import { UserService } from './user.service';
 import { validatorHandler, propertySchema } from '../../middlewares/validator.handler';
 import { getUserDto, updateUserDto } from './user.dto';
 import { UpdateUser } from '../../utils/types/user.type';
+import passport from 'passport';
 
 const service = UserService.create();
 export const userController = Router();
 
 userController.get(
   '/',
+  passport.authenticate('jwt', { session: false }),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const users = await service.findAll();
@@ -23,6 +25,7 @@ userController.get(
 
 userController.get(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getUserDto, propertySchema.PARAMS),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -54,6 +57,7 @@ userController.get(
 
 userController.put(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getUserDto, propertySchema.PARAMS),
   validatorHandler(updateUserDto, propertySchema.BODY),
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -71,6 +75,7 @@ userController.put(
 
 userController.delete(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getUserDto, propertySchema.PARAMS),
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {

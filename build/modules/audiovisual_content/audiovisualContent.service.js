@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -24,62 +15,52 @@ class AudiovisualContentService {
             AudiovisualContentService.instance = new AudiovisualContentService();
         return AudiovisualContentService.instance;
     }
-    findAll(query) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let where = {};
-            let orderQuery;
-            let thisOrder = [];
-            if (query.title)
-                where = Object.assign(Object.assign({}, where), { title: query.title });
-            if (query.genre)
-                where = Object.assign(Object.assign({}, where), { '$genreAudiovisualContent.id$': query.genre });
-            if (query.order) {
-                orderQuery = ['creationDate', query.order];
-                thisOrder = [orderQuery];
-            }
-            const movies = yield models.AudiovisualContent.findAll({
-                attributes: {
-                    exclude: ['rating'],
-                },
-                include: ['genreAudiovisualContent'],
-                where: Object.assign({}, where),
-                order: thisOrder
-            });
-            return movies;
+    async findAll(query) {
+        let where = {};
+        let orderQuery;
+        let thisOrder = [];
+        if (query.title)
+            where = { ...where, title: query.title };
+        if (query.genre)
+            where = { ...where, '$genreAudiovisualContent.id$': query.genre };
+        if (query.order) {
+            orderQuery = ['creationDate', query.order];
+            thisOrder = [orderQuery];
+        }
+        const movies = await models.AudiovisualContent.findAll({
+            attributes: {
+                exclude: ['rating'],
+            },
+            include: ['genreAudiovisualContent'],
+            where: { ...where },
+            order: thisOrder
         });
+        return movies;
     }
-    findOne(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const movie = yield models.AudiovisualContent.findByPk(id, {
-                include: [{
-                        association: 'collaborations',
-                        attributes: { exclude: ['Collaboration'] }
-                    }],
-            });
-            if (!movie)
-                throw boom_1.default.notFound(`The audiovisual content with id ${id} does not exist.`);
-            return movie;
+    async findOne(id) {
+        const movie = await models.AudiovisualContent.findByPk(id, {
+            include: [{
+                    association: 'collaborations',
+                    attributes: { exclude: ['Collaboration'] }
+                }],
         });
+        if (!movie)
+            throw boom_1.default.notFound(`The audiovisual content with id ${id} does not exist.`);
+        return movie;
     }
-    create(data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const newMovie = yield models.AudiovisualContent.create(data);
-            return newMovie;
-        });
+    async create(data) {
+        const newMovie = await models.AudiovisualContent.create(data);
+        return newMovie;
     }
-    update(id, changes) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const movie = yield this.findOne(id);
-            const response = yield movie.update(changes);
-            return response;
-        });
+    async update(id, changes) {
+        const movie = await this.findOne(id);
+        const response = await movie.update(changes);
+        return response;
     }
-    delete(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const movie = yield this.findOne(id);
-            yield movie.destroy();
-            return { message: `${id} audiovisual content removed.` };
-        });
+    async delete(id) {
+        const movie = await this.findOne(id);
+        await movie.destroy();
+        return { message: `${id} audiovisual content removed.` };
     }
 }
 AudiovisualContentService.instance = null;

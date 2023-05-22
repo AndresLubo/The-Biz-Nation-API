@@ -7,12 +7,14 @@ import {
 } from '../../middlewares/validator.handler';
 import { CreateGenre, UpdateGenre } from '../../utils/types/genre.type';
 import { createGenreContentDto, getGenreDto, updateGenreDto } from './genre.dto';
+import passport from 'passport';
 
 const service = GenreService.create();
 export const genreController = Router();
 
 genreController.get(
   '/',
+  passport.authenticate('jwt', { session: false }),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const genres = await service.findAll();
@@ -25,6 +27,7 @@ genreController.get(
 
 genreController.get(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getGenreDto, propertySchema.PARAMS),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -39,6 +42,7 @@ genreController.get(
 
 genreController.post(
   '/',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(createGenreContentDto, propertySchema.BODY),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -53,6 +57,7 @@ genreController.post(
 
 genreController.put(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getGenreDto, propertySchema.PARAMS),
   validatorHandler(updateGenreDto, propertySchema.BODY),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -70,6 +75,7 @@ genreController.put(
 
 genreController.delete(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getGenreDto, propertySchema.PARAMS),
   async (req: Request, res: Response, next: NextFunction) => {
     try {

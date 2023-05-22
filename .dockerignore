@@ -1,2 +1,9 @@
 node_modules
 src
+.env.example
+.gitignore
+README.md
+tsconfig.json
+.editorconfig
+.eslintrc.json
+nodemon.json

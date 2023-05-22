@@ -11,12 +11,14 @@ import {
 } from '../../utils/types/character.type';
 import { getCharacterDto, createCharacterDto, updateCharacterDto, queryFiltersDto } from './character.dto';
 import { filter } from '../../utils/types/filters.character.type';
+import passport from 'passport';
 
 const service = CharacterService.create();
 export const characterController = Router();
 
 characterController.get(
   '/',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(queryFiltersDto, propertySchema.QUERY),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -31,6 +33,7 @@ characterController.get(
 
 characterController.get(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getCharacterDto, propertySchema.PARAMS),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -45,6 +48,7 @@ characterController.get(
 
 characterController.post(
   '/',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(createCharacterDto, propertySchema.BODY),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -59,6 +63,7 @@ characterController.post(
 
 characterController.put(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getCharacterDto, propertySchema.PARAMS),
   validatorHandler(updateCharacterDto, propertySchema.BODY),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -76,6 +81,7 @@ characterController.put(
 
 characterController.delete(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getCharacterDto, propertySchema.PARAMS),
   async (req: Request, res: Response, next: NextFunction) => {
     try {

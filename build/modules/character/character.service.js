@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -24,60 +15,50 @@ class CharacterService {
             CharacterService.instance = new CharacterService();
         return CharacterService.instance;
     }
-    findAll(query) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let where = {};
-            if (query.movie)
-                where = Object.assign(Object.assign({}, where), { '$collaborations.collaboration.id$': query.movie });
-            if (query.name)
-                where = Object.assign(Object.assign({}, where), { name: query.name });
-            if (query.age)
-                where = Object.assign(Object.assign({}, where), { age: query.age });
-            const options = {
-                attributes: {
-                    exclude: ['history', 'age', 'weight'],
-                },
-                include: [{
-                        association: 'collaborations'
-                    }],
-                where: Object.assign({}, where)
-            };
-            const characters = yield models.Character.findAll(options);
-            return characters;
-        });
+    async findAll(query) {
+        let where = {};
+        if (query.movie)
+            where = { ...where, '$collaborations.collaboration.id$': query.movie };
+        if (query.name)
+            where = { ...where, name: query.name };
+        if (query.age)
+            where = { ...where, age: query.age };
+        const options = {
+            attributes: {
+                exclude: ['history', 'age', 'weight'],
+            },
+            include: [{
+                    association: 'collaborations'
+                }],
+            where: { ...where }
+        };
+        const characters = await models.Character.findAll(options);
+        return characters;
     }
-    findOne(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const character = yield models.Character.findByPk(id, {
-                include: [{
-                        association: 'collaborations',
-                        attributes: { exclude: [] }
-                    }]
-            });
-            if (!character)
-                throw boom_1.default.notFound(`The character with id ${id} does not exist.`);
-            return character;
+    async findOne(id) {
+        const character = await models.Character.findByPk(id, {
+            include: [{
+                    association: 'collaborations',
+                    attributes: { exclude: [] }
+                }]
         });
+        if (!character)
+            throw boom_1.default.notFound(`The character with id ${id} does not exist.`);
+        return character;
     }
-    create(data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const newCharacter = yield models.Character.create(data);
-            return newCharacter;
-        });
+    async create(data) {
+        const newCharacter = await models.Character.create(data);
+        return newCharacter;
     }
-    update(id, changes) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const character = yield this.findOne(id);
-            const response = yield character.update(changes);
-            return response;
-        });
+    async update(id, changes) {
+        const character = await this.findOne(id);
+        const response = await character.update(changes);
+        return response;
     }
-    delete(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const character = yield this.findOne(id);
-            yield character.destroy();
-            return { message: `${id} character removed.` };
-        });
+    async delete(id) {
+        const character = await this.findOne(id);
+        await character.destroy();
+        return { message: `${id} character removed.` };
     }
 }
 CharacterService.instance = null;

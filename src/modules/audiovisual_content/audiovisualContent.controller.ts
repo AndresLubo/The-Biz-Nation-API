@@ -16,12 +16,14 @@ import {
   updateAudiovisualContentDto,
 } from './audiovisualContent.dto';
 import { filter } from '../../utils/types/filter.audiovisualContent.type';
+import passport from 'passport';
 
 const service = AudiovisualContentService.create();
 export const audiovisualContentController = Router();
 
 audiovisualContentController.get(
   '/',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(queryFiltersDto, propertySchema.QUERY),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -36,6 +38,7 @@ audiovisualContentController.get(
 
 audiovisualContentController.get(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getAudiovisualContentDto, propertySchema.PARAMS),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -50,6 +53,7 @@ audiovisualContentController.get(
 
 audiovisualContentController.post(
   '/',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(createAudiovisualContentDto, propertySchema.BODY),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -65,6 +69,7 @@ audiovisualContentController.post(
 
 audiovisualContentController.put(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getAudiovisualContentDto, propertySchema.PARAMS),
   validatorHandler(updateAudiovisualContentDto, propertySchema.BODY),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -82,6 +87,7 @@ audiovisualContentController.put(
 
 audiovisualContentController.delete(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getAudiovisualContentDto, propertySchema.PARAMS),
   async (req: Request, res: Response, next: NextFunction) => {
     try {

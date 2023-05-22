@@ -14,12 +14,14 @@ import {
   getGenreAudiovisualContentDto,
   updateGenreAudiovisualContentDto,
 } from './genreAudiovisualContent.dto';
+import passport from 'passport';
 
 const service = GenreAudiovisualContentService.create();
 export const genreAudiovisualContentController = Router();
 
 genreAudiovisualContentController.get(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getGenreAudiovisualContentDto, propertySchema.PARAMS),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -34,6 +36,7 @@ genreAudiovisualContentController.get(
 
 genreAudiovisualContentController.post(
   '/',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(createGenreAudiovisualContentDto, propertySchema.BODY),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -48,6 +51,7 @@ genreAudiovisualContentController.post(
 
 genreAudiovisualContentController.put(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getGenreAudiovisualContentDto, propertySchema.PARAMS),
   validatorHandler(updateGenreAudiovisualContentDto, propertySchema.BODY),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -65,6 +69,7 @@ genreAudiovisualContentController.put(
 
 genreAudiovisualContentController.delete(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getGenreAudiovisualContentDto, propertySchema.PARAMS),
   async (req: Request, res: Response, next: NextFunction) => {
     try {

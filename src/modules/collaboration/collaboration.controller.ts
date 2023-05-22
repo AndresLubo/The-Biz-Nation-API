@@ -14,12 +14,14 @@ import {
   getCollaborationDto,
   updateCollaborationDto,
 } from './collaboration.dto';
+import passport from 'passport';
 
 const service = CollaborationService.create();
 export const collaborationController = Router();
 
 collaborationController.get(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getCollaborationDto, propertySchema.PARAMS),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -34,6 +36,7 @@ collaborationController.get(
 
 collaborationController.post(
   '/',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(createCollaborationDto, propertySchema.BODY),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -48,6 +51,7 @@ collaborationController.post(
 
 collaborationController.put(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getCollaborationDto, propertySchema.PARAMS),
   validatorHandler(updateCollaborationDto, propertySchema.BODY),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -65,6 +69,7 @@ collaborationController.put(
 
 collaborationController.delete(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getCollaborationDto, propertySchema.PARAMS),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
