@@ -1,4 +1,6 @@
 import express, { Application } from 'express';
+import swaggerUI from 'swagger-ui-express';
+import * as data from './swaggerDocs.json'
 
 import { RouterApi } from './router/router';
 import {
@@ -13,6 +15,7 @@ export const createApp = (): Application => {
   const app = express();
 
   app.use(express.json());
+  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(data));
 
   RouterApi(app);
 

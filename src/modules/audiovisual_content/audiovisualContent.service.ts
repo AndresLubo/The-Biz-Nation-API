@@ -26,6 +26,7 @@ export class AudiovisualContentService {
     let where = {};
     let orderQuery;
     let thisOrder: any[] = [];
+    let association = ['genreAudiovisualContent']
 
     if (query.title) where = {...where, title: query.title }
     if (query.genre)  where = { ...where, '$genreAudiovisualContent.id$': query.genre }
@@ -34,12 +35,14 @@ export class AudiovisualContentService {
       thisOrder = [orderQuery]
     }
 
+    if (!query.title && !query.genre && !query.order) association = [];
+
     const movies: Model<AudiovisualContent>[] =
       await models.AudiovisualContent.findAll({
         attributes: {
           exclude: ['rating'],
         },
-        include: ['genreAudiovisualContent'],
+        include: association,
         where: {...where },
         order: thisOrder
       });

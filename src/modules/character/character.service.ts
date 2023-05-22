@@ -19,18 +19,21 @@ export class CharacterService {
 
   async findAll(query: filter): Promise<Model<Character>[]>{
     let where = {};
+    let association = [{
+      association: 'collaborations'
+    }];
 
     if (query.movie) where = {...where, '$collaborations.collaboration.id$': query.movie }
     if (query.name) where = { ...where, name: query.name }
     if (query.age) where = { ...where, age: query.age }
 
+    if (!query.movie && !query.name && !query.age) association = []
+
     const options = {
       attributes: {
         exclude: ['history', 'age', 'weight'],
       },
-      include: [{
-        association: 'collaborations'
-      }],
+      include: association,
       where: {...where}
     };
 

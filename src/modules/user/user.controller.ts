@@ -9,6 +9,7 @@ import passport from 'passport';
 const service = UserService.create();
 export const userController = Router();
 
+
 userController.get(
   '/',
   passport.authenticate('jwt', { session: false }),
