@@ -1,59 +1,72 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.genreController = void 0;
 const express_1 = require("express");
 const genre_service_1 = require("./genre.service");
 const validator_handler_1 = require("../../middlewares/validator.handler");
 const genre_dto_1 = require("./genre.dto");
+const passport_1 = __importDefault(require("passport"));
 const service = genre_service_1.GenreService.create();
 exports.genreController = (0, express_1.Router)();
-exports.genreController.get('/', async (req, res, next) => {
+exports.genreController.get('/', passport_1.default.authenticate('jwt', { session: false }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const genres = await service.findAll();
+        const genres = yield service.findAll();
         res.status(200).json(genres);
     }
     catch (error) {
         next(error);
     }
-});
-exports.genreController.get('/:id', (0, validator_handler_1.validatorHandler)(genre_dto_1.getGenreDto, validator_handler_1.propertySchema.PARAMS), async (req, res, next) => {
+}));
+exports.genreController.get('/:id', passport_1.default.authenticate('jwt', { session: false }), (0, validator_handler_1.validatorHandler)(genre_dto_1.getGenreDto, validator_handler_1.propertySchema.PARAMS), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const genre = await service.findOne(parseInt(id));
+        const genre = yield service.findOne(parseInt(id));
         res.status(200).json(genre);
     }
     catch (error) {
         next(error);
     }
-});
-exports.genreController.post('/', (0, validator_handler_1.validatorHandler)(genre_dto_1.createGenreContentDto, validator_handler_1.propertySchema.BODY), async (req, res, next) => {
+}));
+exports.genreController.post('/', passport_1.default.authenticate('jwt', { session: false }), (0, validator_handler_1.validatorHandler)(genre_dto_1.createGenreContentDto, validator_handler_1.propertySchema.BODY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
-        const response = await service.create(data);
+        const response = yield service.create(data);
         res.status(201).json(response);
     }
     catch (error) {
         next(error);
     }
-});
-exports.genreController.put('/:id', (0, validator_handler_1.validatorHandler)(genre_dto_1.getGenreDto, validator_handler_1.propertySchema.PARAMS), (0, validator_handler_1.validatorHandler)(genre_dto_1.updateGenreDto, validator_handler_1.propertySchema.BODY), async (req, res, next) => {
+}));
+exports.genreController.put('/:id', passport_1.default.authenticate('jwt', { session: false }), (0, validator_handler_1.validatorHandler)(genre_dto_1.getGenreDto, validator_handler_1.propertySchema.PARAMS), (0, validator_handler_1.validatorHandler)(genre_dto_1.updateGenreDto, validator_handler_1.propertySchema.BODY), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const changes = req.body;
-        const response = await service.update(parseInt(id), changes);
+        const response = yield service.update(parseInt(id), changes);
         res.status(200).json(response);
     }
     catch (error) {
         next(error);
     }
-});
-exports.genreController.delete('/:id', (0, validator_handler_1.validatorHandler)(genre_dto_1.getGenreDto, validator_handler_1.propertySchema.PARAMS), async (req, res, next) => {
+}));
+exports.genreController.delete('/:id', passport_1.default.authenticate('jwt', { session: false }), (0, validator_handler_1.validatorHandler)(genre_dto_1.getGenreDto, validator_handler_1.propertySchema.PARAMS), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const response = await service.delete(parseInt(id));
+        const response = yield service.delete(parseInt(id));
         res.status(200).json(response);
     }
     catch (error) {
         next(error);
     }
-});
+}));

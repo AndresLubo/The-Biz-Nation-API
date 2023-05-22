@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -19,31 +28,39 @@ class CollaborationService {
             CollaborationService.instance = new CollaborationService();
         return CollaborationService.instance;
     }
-    async findOne(id) {
-        const collaboration = await models.Collaboration.findByPk(id);
-        if (!collaboration)
-            throw boom_1.default.notFound(`The collaboration with id ${id} does not exist.`);
-        return collaboration;
+    findOne(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const collaboration = yield models.Collaboration.findByPk(id);
+            if (!collaboration)
+                throw boom_1.default.notFound(`The collaboration with id ${id} does not exist.`);
+            return collaboration;
+        });
     }
-    async create(data) {
-        await characterService.findOne(data.characterId);
-        await audiovisualContentService.findOne(data.audiovisualContentId);
-        const newCollaboration = await models.Collaboration.create(data);
-        return newCollaboration;
+    create(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield characterService.findOne(data.characterId);
+            yield audiovisualContentService.findOne(data.audiovisualContentId);
+            const newCollaboration = yield models.Collaboration.create(data);
+            return newCollaboration;
+        });
     }
-    async update(id, changes) {
-        if (changes.characterId !== undefined)
-            await characterService.findOne(changes.characterId);
-        if (changes.audiovisualContentId !== undefined)
-            await characterService.findOne(changes.audiovisualContentId);
-        const collaboration = await this.findOne(id);
-        const newCollaboration = await collaboration.update(changes);
-        return newCollaboration;
+    update(id, changes) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (changes.characterId !== undefined)
+                yield characterService.findOne(changes.characterId);
+            if (changes.audiovisualContentId !== undefined)
+                yield characterService.findOne(changes.audiovisualContentId);
+            const collaboration = yield this.findOne(id);
+            const newCollaboration = yield collaboration.update(changes);
+            return newCollaboration;
+        });
     }
-    async delete(id) {
-        const collaboration = await this.findOne(id);
-        await collaboration.destroy();
-        return { message: `${id} collaboration removed.` };
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const collaboration = yield this.findOne(id);
+            yield collaboration.destroy();
+            return { message: `${id} collaboration removed.` };
+        });
     }
 }
 CollaborationService.instance = null;
